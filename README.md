@@ -19,6 +19,7 @@ apt -y install git \
 && git clone https://github.com/joosung/UAAI26.git \
 && mv UAAI26 UAAI \
 && cd UAAI \
+&& chmod 700 install.sh \
 && sh install.sh
 </pre>
 
