@@ -1,0 +1,47 @@
+#!/bin/bash
+ 
+#####################################################################################
+#                                                                                   #
+# * Ubuntu with AAI                                                                 #
+# * Ubuntu 26.04.1-live-server                                                      #
+# * Apache 2.4.X , MariaDB 15.12, PHP(base php8.5) setup shell script           #
+# * Created Date    : 2026/09/28                                                    #
+# * Created by  : Joo Sung ( webmaster@apachezone.com )                             #
+#                                                                                   #
+#####################################################################################
+
+##########################################
+#                                        #
+#           phpMyAdmin install           #
+#                                        #
+########################################## 
+
+
+apt-get install unzip
+
+cd /var/www/html
+
+wget https://files.phpmyadmin.net/phpMyAdmin/5.2.3/phpMyAdmin-5.2.3-all-languages.zip
+unzip phpMyAdmin-5.2.3-all-languages.zip
+mv phpMyAdmin-5.2.3-all-languages phpmyadmin
+rm phpMyAdmin-5.2.3-all-languages.zip
+
+cd phpmyadmin
+cp -av config.sample.inc.php config.inc.php
+
+sudo mkdir /var/www/html/phpmyadmin/tmp/
+sudo chmod 777 /var/www/html/phpmyadmin/tmp/
+
+# 쿠키 암호화에 사용되는 키 생성
+BLOWFISH_SECRET=$(< /dev/urandom tr -dc 'A-Za-z0-9!@#' | head -c 32)
+sed -i "s/\$cfg\['blowfish_secret'\] = '[^']*'/\$cfg\['blowfish_secret'\] = '${BLOWFISH_SECRET}'/g" config.inc.php
+
+echo "\$cfg['TempDir'] = '/var/www/html/phpmyadmin/tmp/';" >> config.inc.php
+
+sh /root/UAAI/restart.sh
+
+echo ""
+echo ""
+echo "축하 드립니다. phpMyAdmin 설치 작업이 끝났습니다."
+
+exit 0
