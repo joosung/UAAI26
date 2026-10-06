@@ -16,7 +16,8 @@ SSH와 SFTP 는 필히 root 권한으로 접속 합니다.
 <pre>
 apt -y install git \
 && cd /root/ \
-&& git clone https://github.com/joosung/UAAI.git \
+&& git clone https://github.com/joosung/UAAI26.git \
+&& mv UAAI26 AAI \
 && cd UAAI \
 && sh install.sh
 </pre>
